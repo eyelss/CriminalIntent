@@ -74,7 +74,11 @@ class CrimeListFragment : Fragment() {
 
     private inner class CrimeAdapter(var crimes: List<Crime>) : RecyclerView.Adapter<CrimeHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
-            val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
+            val view = when (viewType) {
+                LIGHT_CRIME -> layoutInflater.inflate(R.layout.list_item_crime, parent, false)
+                HARD_CRIME -> layoutInflater.inflate(R.layout.list_item_hard_crime, parent, false)
+                else -> throw Exception("Unreachable statmnet")
+            }
             return CrimeHolder(view)
         }
 
@@ -84,9 +88,19 @@ class CrimeListFragment : Fragment() {
             val crime = crimes[position]
             holder.bind(crime)
         }
+
+        override fun getItemViewType(position: Int): Int {
+            if (crimes[position].requiresPolice)
+                return HARD_CRIME
+            else
+                return LIGHT_CRIME
+        }
     }
 
     companion object {
+        private const val LIGHT_CRIME: Int = 0
+        private const val HARD_CRIME: Int = 1
+
         fun newInstance(): CrimeListFragment {
             return CrimeListFragment()
         }
