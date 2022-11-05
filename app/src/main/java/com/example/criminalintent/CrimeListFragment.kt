@@ -104,10 +104,9 @@ class CrimeListFragment : Fragment() {
         }
 
         override fun getItemViewType(position: Int): Int {
-            if (crimes[position].requiresPolice)
-                return HARD_CRIME
-            else
-                return LIGHT_CRIME
+//            if (crimes[position].requiresPolice)
+//                return HARD_CRIME
+            return LIGHT_CRIME
         }
     }
 
